@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    /* project options */
+    "incremental": true,
+    "target": "ES2019",
+    "module": "ESNext",
+    "jsx": "react",
+    "outDir": "./.ts",
+
+    /* module resolution */
+    "moduleResolution": "Node",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "allowSyntheticDefaultImports": true,
+
+    /* strict checks */
+    "strict": true,
+    "strictFunctionTypes": false,
+
+    /* advanced */
+    "skipLibCheck": true,
+    "resolveJsonModule": true
+  }
+}
