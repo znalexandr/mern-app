@@ -4,7 +4,9 @@
   "description": "Fullstack application use MongoDB + Express + React + Node",
   "main": "app.js",
   "scripts": {
-    "server": "nodemon app.js"
+    "server": "nodemon app.js",
+    "client": "yarn start --prefix frontend",
+    "dev": "cross-env NODE_ENV=development concurrently \"yarn server\" \"yarn client\""
   },
   "repository": {
     "type": "git",
