@@ -18,7 +18,7 @@ export function PrivateRoute(props: RouteProps) {
 
   return (
     <Route path={path} exact={exact}>
-      {Session.getToken() ? children : <Redirect to="/login" />}
+      {Session.getToken() ? children : <Redirect to="/auth" />}
     </Route>
   );
 }

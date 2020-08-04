@@ -11,13 +11,12 @@ const cache = createCache({
 const styles = css`
   html {
     width: 100%;
-    font-size: 8px;
   }
 
   body {
     margin: 0;
     width: 100%;
-    font-size: 2rem;
+    font-size: 16px;
   }
 
   #app {

@@ -4,23 +4,20 @@
   "private": true,
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --hot --PUBLIC_PATH=/",
+    "build": "yarn clean && cross-env NODE_ENV=production webpack --PUBLIC_PATH=/",
     "dev": "yarn start",
     "clean": "rimraf build",
-    "typecheck": "yarn ts",
     "ts": "tsc --noUnusedLocals",
     "ts:strict": "tsc --noUnusedLocals --strictFunctionTypes",
     "lint": "yarn lint:js && yarn lint:css",
     "lint:js": "eslint './src/**/*.{ts,tsx}'",
-    "lint:js-fix": "eslint './src/**/*.{ts,tsx}' --fix",
     "lint:css": "stylelint './src/**/*.{ts,tsx}'",
-    "lint:css-fix": "stylelint './src/**/*.{ts,tsx}' --fix",
-    "verify": "yarn typecheck && yarn lint",
     "bundle-analyzer": "cross-env NODE_ENV=production webpack --BUNDLE_ANALYZER"
   },
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "lint-staged && yarn typecheck"
+      "pre-commit": "lint-staged && yarn ts"
     }
   },
   "lint-staged": {
@@ -36,9 +33,9 @@
     "@emotion/core": "10.0.28",
     "@emotion/styled": "10.0.27",
     "axios": "0.19.2",
-    "history": "5.0.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-hook-form": "^6.2.0",
     "react-router-dom": "5.2.0"
   },
   "devDependencies": {
