@@ -14,6 +14,7 @@ export function PublicLayout(props: Props) {
       <S.Container>
         <S.Logo />
         <S.Content>{children}</S.Content>
+        <p className="mt-5 mb-3 text-muted text-center">© 2020</p>
       </S.Container>
     </S.PublicLayout>
   );

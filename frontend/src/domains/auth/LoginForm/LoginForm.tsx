@@ -42,7 +42,6 @@ export function LoginForm(props: Props) {
       <button className="btn btn-lg btn-primary btn-block" type="submit">
         Войти
       </button>
-      <p className="mt-5 mb-3 text-muted text-center">© 2020</p>
     </form>
   );
 }
