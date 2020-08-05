@@ -2,28 +2,20 @@
   "name": "mern-app",
   "version": "1.0.0",
   "description": "Fullstack application use MongoDB + Express + React + Node",
-  "main": "app.js",
   "scripts": {
-    "server": "nodemon app.js",
-    "client": "yarn start --prefix frontend",
-    "dev": "cross-env NODE_ENV=development concurrently \"yarn server\" \"yarn client\""
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/znalexandr/mern-app.git"
+    "backend:install": "cd backend &&  yarn install",
+    "backend:dev": "cd backend && yarn dev",
+    "backend:start": "cd backend && yarn start",
+    "frontend:install": "cd frontend && yarn install",
+    "frontend:dev": "cd frontend && yarn dev",
+    "frontend:build": "cd frontend && yarn build",
+    "app:install": "yarn install && yarn backend:install && yarn frontend:install",
+    "app:start": "yarn frontend:build && yarn run backend:start",
+    "app:dev": "concurrently \"yarn run backend:dev\" \"yarn run frontend:dev\""
   },
   "author": "Alexandr Zinin <znalexandr@yandex.ru>",
   "license": "ISC",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "config": "^3.3.1",
-    "express": "^4.17.1",
-    "express-validator": "^6.6.0",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.25"
-  },
-  "devDependencies": {
-    "cross-env": "^7.0.2",
-    "nodemon": "^2.0.4"
+    "concurrently": "5.0.2"
   }
 }

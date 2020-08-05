@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "cross-env NODE_ENV=development webpack-dev-server --hot --PUBLIC_PATH=/",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --hot --PUBLIC_PATH=/",
     "build": "yarn clean && cross-env NODE_ENV=production webpack --PUBLIC_PATH=/",
-    "dev": "yarn start",
     "clean": "rimraf build",
     "ts": "tsc --noUnusedLocals",
     "ts:strict": "tsc --noUnusedLocals --strictFunctionTypes",
