@@ -34,19 +34,21 @@ router.post(
         return res.status(400).json({ message: 'Такой пользователь уже существует' });
       }
 
-      const hashedPassword = await bcrypt.hash(password, 12);
+      const hashedPassword = await bcrypt.hash(String(password), 12);
       const user = new User({ email, password: hashedPassword });
 
       await user.save();
 
       res.status(201).json({ message: 'Пользователь создан' });
     } catch (e) {
+      console.error(e);
+      console.log(req);
       res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
     }
   }
 );
 
-// /api/auth/login
+// // /api/auth/login
 router.post(
   '/login',
   [
