@@ -7,11 +7,16 @@ const { check, validationResult } = require('express-validator');
 const User = require('../models/User');
 const router = Router();
 
+function createToken(userId) {
+  return jwt.sign({ userId }, config.get('jwtSecret'), { expiresIn: '1h' });
+}
+
 // /api/auth/register
 
 router.post(
   '/register',
   [
+    check('name', 'Обязательное поле name').not().isEmpty(),
     check('email', 'Некорректный email').isEmail(),
     check('password', 'Минимальная длина пароля 6 символов').isLength({ min: 6 })
   ],
@@ -26,7 +31,7 @@ router.post(
         });
       }
 
-      const { email, password } = req.body;
+      const { name, email, password } = req.body;
 
       const candidate = await User.findOne({ email });
 
@@ -35,11 +40,16 @@ router.post(
       }
 
       const hashedPassword = await bcrypt.hash(String(password), 12);
-      const user = new User({ email, password: hashedPassword });
+      const user = new User({ name, email, password: hashedPassword });
 
       await user.save();
 
-      res.status(201).json({ message: 'Пользователь создан' });
+      const token = createToken(user.id);
+
+      res.status(201).json({
+        data: { token: `Bearer ${token}`, id: user.id, email: user.email, name: user.name },
+        message: 'Успешная регистрация'
+      });
     } catch (e) {
       console.error(e);
       console.log(req);
@@ -52,8 +62,8 @@ router.post(
 router.post(
   '/login',
   [
-    check('email', 'Введите корректный email').normalizeEmail().isEmail(),
-    check('password', 'Введите пароль').exists()
+    check('email', 'Невалидный email').normalizeEmail().isEmail(),
+    check('password', 'Поле пароль должно быть заполнено').exists()
   ],
   async (req, res) => {
     try {
@@ -62,7 +72,7 @@ router.post(
       if (!errors.isEmpty()) {
         return res.status(400).json({
           errors: errors.array(),
-          message: 'Некорректный данные при входе в систему'
+          message: 'Некорректный данные'
         });
       }
 
@@ -80,9 +90,12 @@ router.post(
         return res.status(400).json({ message: 'Неверный логин или пароль, попробуйте снова' });
       }
 
-      const token = jwt.sign({ userId: user.id }, config.get('jwtSecret'), { expiresIn: '1h' });
+      const token = createToken(user.id);
 
-      res.json({ token, userId: user.id });
+      res.json({
+        data: { token: `Bearer ${token}`, id: user.id, email: user.email, name: user.name },
+        message: 'Успешная авторизация'
+      });
     } catch (e) {
       res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
     }

@@ -1,15 +1,36 @@
-const TOKEN_KEY = 'token';
+const USERDATA_KEY = 'userdata';
+
+export type UserType = {
+  token: string;
+  id: string;
+  email: string;
+  name: string;
+};
+
+export function setUser(data: UserType) {
+  localStorage.setItem(USERDATA_KEY, JSON.stringify(data));
+}
+
+export function getUser(): UserType {
+  const data = localStorage.getItem(USERDATA_KEY);
+
+  return data && JSON.parse(data);
+}
 
 export function getToken() {
-  return localStorage.getItem(TOKEN_KEY);
+  const data = getUser();
+
+  return data?.token;
 }
 
 export function setToken(token: string) {
-  localStorage.setItem(TOKEN_KEY, `Bearer ${token}`);
+  const data = getUser();
+
+  setUser({ ...data, token: `Bearer ${token}` });
 }
 
-export function removeToken() {
-  localStorage.removeItem(TOKEN_KEY);
+export function logout() {
+  localStorage.removeItem(USERDATA_KEY);
 }
 
 export function hasToken() {

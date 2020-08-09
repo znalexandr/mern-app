@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, ResponseType, AxiosResponse } from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 
 import { Session } from '@/services';
 
@@ -29,7 +29,7 @@ function getHeaders() {
 }
 
 function handleAuthError() {
-  Session.removeToken();
+  Session.logout();
 }
 
 export async function rest(config: AxiosRequestConfig) {

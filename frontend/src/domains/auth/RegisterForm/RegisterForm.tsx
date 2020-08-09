@@ -1,26 +1,27 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
-import { AuthApi } from '@/domains/auth';
+import { AuthActions } from '@/domains/auth';
 
 type Inputs = {
+  name: string;
   email: string;
   password: string;
 };
 
-type Props = {};
-
-export function RegisterForm(props: Props) {
+export function RegisterForm() {
   const { register, handleSubmit, errors } = useForm<Inputs>();
 
   async function onSubmit(data: Inputs) {
     try {
-      const res = await AuthApi.register(data);
+      await AuthActions.register(data);
 
-      console.log(res);
+      toast.success('Вы успешно зарегистрировались!');
+      document.location.href = '/';
     } catch (e) {
-      console.error(e.message);
+      toast.error(e.message);
     }
   }
 
@@ -34,6 +35,22 @@ export function RegisterForm(props: Props) {
         </p>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="form-group">
+          <label htmlFor="name">Имя</label>
+          <input
+            name="name"
+            id="name"
+            className="form-control"
+            placeholder="Введите ваше имя"
+            ref={register({
+              required: 'Обязательное поле'
+            })}
+          />
+          {errors?.name && (
+            <div className="text-danger">{errors.name?.message}</div>
+          )}
+        </div>
+
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
